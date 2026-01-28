@@ -1,0 +1,8 @@
+请先在终端执行：
+
+pnpm add vite-plugin-svg-sprite -D
+
+如用 npm：
+npm install vite-plugin-svg-sprite --save-dev
+
+然后继续下面的自动配置和代码修改。
