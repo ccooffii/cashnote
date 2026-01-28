@@ -1,0 +1,181 @@
+@media (max-width: 500px) {
+  html, body {
+    background: #fefbf0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100% !important;
+  }
+  .phone-frame-wrapper,
+  .phone-frame-device,
+  .phone-frame-screen {
+    background: #fefbf0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100vh !important;
+    box-sizing: border-box;
+  }
+}
+@media (max-width: 500px) {
+  .phone-frame-screen {
+    height: 100vh;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  /* 主内容区最大高度，防止撑满 */
+  .content-scroll {
+    max-height: 40vh;
+    min-height: 0;
+    overflow-y: auto;
+    flex: 1 1 auto;
+  }
+  /* 软键盘最小高度 */
+  .number-pad-section {
+    min-height: 220px;
+  }
+  /* 底部导航栏不被挤没 */
+  .phone-frame-screen > *:last-child {
+    flex-shrink: 0;
+  }
+}
+@media (max-width: 500px) {
+  .phone-frame-screen {
+    height: 100vh;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .phone-frame-screen > *:nth-last-child(2) {
+    /* NumberPadSection */
+    flex-shrink: 0;
+  }
+  .phone-frame-screen > *:last-child {
+    /* Navi */
+    flex-shrink: 0;
+  }
+  .phone-frame-screen > *:not(:nth-last-child(2)):not(:last-child) {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+  }
+}
+@media (max-width: 500px) {
+  .phone-frame-screen {
+    height: 100vh;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .phone-frame-screen > *:not(:last-child) {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+  }
+}
+html,
+body {
+  height: 100%; /* 确保 body 和 html 占满整个高度 */
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* 防止在移动设备上出现滚动条 */
+}
+/* 默认样式 (移动端优先)，不显示外框 */
+.phone-frame-wrapper {
+  width: 100%;
+  height: 100%; /* 占满整个视口高度 */
+  display: flex; /* 保持 flex 布局，以便在桌面端居中 */
+  justify-content: center;
+  align-items: center;
+}
+
+.phone-frame-device {
+  width: 100%;
+  height: 100%;
+  display: flex; /* 使用 flex 布局来容纳屏幕 */
+  flex-direction: column;
+}
+
+.phone-frame-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 主内容区自适应，底部导航始终可见（移动端和桌面端都生效） */
+.phone-frame-screen > *:not(:last-child) {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+/* 默认隐藏 PC 专属的 UI 元素 */
+.phone-frame-notch,
+.phone-frame-home-indicator {
+  display: none;
+}
+
+/* 强制隐藏刘海 */
+.phone-frame-notch {
+  display: none !important;
+}
+
+/* 当屏幕宽度大于 500px 时 (认为是桌面端)，应用手机外框样式 */
+@media (min-width: 500px) {
+  body {
+    background-color: #e9e9e9; /* 为页面添加一个浅灰色背景 */
+    margin: 0; /* 确保没有默认边距 */
+  }
+
+  .phone-frame-device {
+    width: 375px; /* 模拟 iPhone X/11/12 Pro 的宽度 */
+    height: 812px; /* 模拟 iPhone X/11/12 Pro 的高度 */
+    border: 14px solid black;
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: black;
+    box-sizing: border-box;
+    position: relative; /* 用于定位刘海 */
+    overflow: hidden; /* 隐藏边框外的元素 */
+  }
+
+  .phone-frame-screen {
+    background-color: white;
+    height: 784px;
+    border-radius: 28px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 刘海样式 */
+  .phone-frame-notch {
+    display: block;
+    position: absolute;
+    top: 14px; /* 与边框宽度一致 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 25px;
+    background: black;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    z-index: 10; /* 确保在屏幕内容之上 */
+  }
+
+  /* 底部主屏幕指示条 */
+  .phone-frame-home-indicator {
+    display: block;
+    position: absolute;
+    bottom: 22px; /* 调整位置 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 135px;
+    height: 5px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    z-index: 10;
+  }
+}
