@@ -9,6 +9,8 @@ const NaviWrapper = styled.div`
   height: 56px;
   position: static;
   z-index: 2;
+  /* 适配 iOS Safari 底部安全区，防止被地址栏遮挡 */
+  padding-bottom: env(safe-area-inset-bottom);
   @media (min-width: 500px) {
     position: absolute;
     left: 0;
@@ -17,6 +19,7 @@ const NaviWrapper = styled.div`
     z-index: 10;
     border-bottom-left-radius: 28px;
     border-bottom-right-radius: 28px;
+    padding-bottom: 0;
   }
   .highLight{
     background-color: rgb(246,209,180);
