@@ -1,5 +1,6 @@
 import Layout from "../components/Layout";
 import React, {useState} from "react";
+import Alert from '../components/Alert';
 import styled from "styled-components";
 import {CategorySection} from "./count/CategorySection";
 import {NumberPadSection} from "./count/NumberPad";
@@ -27,34 +28,45 @@ export const MyLayout = styled(Layout)`
         padding-bottom: 8px;
     }
 `
-const defaultFormData = {
-    tagId: 0 as number,
-    note: ''as string,
-    category:'-' as ('-'|'+'),
-    amount: 0 as number,
+function getDefaultFormData() {
+    const lastCategory = window.localStorage.getItem('lastCategory');
+    return {
+        tagId: 0 as number,
+        note: '' as string,
+        category: lastCategory === '+' ? '+' : '-',
+        amount: 0 as number,
+    };
 }
 function Count() {
-    const [selected,setSelected] = useState(defaultFormData)
+    const [selected, setSelected] = useState(getDefaultFormData())
     const onChange = (obj:Partial<typeof selected>) => {
+        // Detect category change and write to localStorage
+        if (obj.category && obj.category !== selected.category) {
+            window.localStorage.setItem('lastCategory', obj.category);
+        }
         setSelected({
             ...selected,
             ...obj
         })
     }
     const {addRecord} = useRecords()
+    const [alert, setAlert] = useState<{open: boolean, message: string}>({open: false, message: ''});
     const submit = () => {
         if(selected.amount === 0){
-            return alert('Please enter an amount');
+            setAlert({open: true, message: 'Please enter an amount'});
+            return;
         }else if(selected.tagId===0){
-            return alert('Please select a tag');
+            setAlert({open: true, message: 'Please select a tag'});
+            return;
         }else {
             addRecord(selected)
-            alert('Submitted successfully')
+            setAlert({open: true, message: 'Submitted successfully'});
             setSelected(defaultFormData)
         }
     }
         return (
             <MyLayout>
+                <Alert open={alert.open} message={alert.message} onClose={() => setAlert({open: false, message: ''})} />
                 <div style={{height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column'}}>
                     <div className="category-fixed">
                         <CategorySection

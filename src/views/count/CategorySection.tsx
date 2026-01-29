@@ -14,10 +14,10 @@ const Category = styled.section`
     flex-direction: row;
     width: 100%;
     background: linear-gradient(90deg, #f6d0a0 0%, #f7e2c0 100%);
-    border-radius: 14px 14px 0 0;
+    // border-radius: 14px 14px 0 0;
     box-shadow: 0 2px 8px 0 rgba(180,140,80,0.13), 0 1.5px 0 #fff inset;
     height: 44px;
-    margin: 0 0 6px 0;
+    // margin: 0 0 6px 0;
     overflow: hidden;
     >li {
       width: 50%;

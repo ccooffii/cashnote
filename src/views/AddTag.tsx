@@ -1,24 +1,27 @@
-import {TagListSection} from "./count/PayTagListSection";
 import {useTags} from "../hooks/useTags";
 import Icon from "../components/Icon";
-import styled from "styled-components";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+// import {TagListSection} from "./count/PayTagListSection"; // 未使用，移除
 import React, {useRef, useState} from "react";
-import {AddButton} from "./PayTagEdit";
-const TagAddBox = styled.div`
+import Alert from '../components/Alert';
+import styled from "styled-components";
+
+const AddButton = styled.button`
+  background-color: rgba(232,130,148,0.7);
+  padding: 8px;
+  border-radius: 14px;
+  color: white;
   font-weight: bolder;
-  display: flex;
-  flex-direction: column;
-  background-color:rgb(254,251,240) ;
-  height: 100vh;
-  user-select: text;
-  -webkit-user-select: text;
-  align-items: center;
-  >button{
-    margin-left: 60%;
-    margin-top: 10px;
-  }
-`
+  text-align: center;
+  width: 100px;
+  height: 50px;
+  font-size: 20px;
+  border:none;
+  box-shadow: inset -2px -3px 0px rgba(0,0,0,0.25);
+`;
+// const TagAddBox = styled.div`
+//   ...未使用，移除
+// `
 export const TopBar = styled.header`
     background-color: rgb(246, 208, 164);
     height: 40px;
@@ -125,35 +128,59 @@ const TagSelectBox = styled.div`
   }
 `
 export const AddTag = () => {
-    const {IconMap,addPayTag} = useTags();
-    const [category,setCategory] = useState<('-'|'+')>('-')
-    const [categoryList] = useState<('-'|'+')[]>(['-','+'])
-    const [tagName,setTagName] = useState('')
-    const [selectedIconId,setSelectedIconId] = useState(-1)
-    const onToggle = (iconId:number) => {
-        if (iconId === selectedIconId){
-            setSelectedIconId(-1)
-        }else {
-            setSelectedIconId(iconId)
-        }
+  const {IconMap,addPayTag} = useTags();
+  const navigate = useNavigate();
+  // Read lastCategory from localStorage, default to '-'
+  const getInitialCategory = () => {
+    const stored = window.localStorage.getItem('lastCategory');
+    return stored === '+' ? '+' : '-';
+  };
+  const [category,setCategory] = useState<('-'|'+')>(getInitialCategory())
+  const [categoryList] = useState<('-'|'+')[]>(['-','+'])
+  const [tagName,setTagName] = useState('')
+  const [selectedIconId,setSelectedIconId] = useState(-1)
+  const onToggle = (iconId:number) => {
+    if (iconId === selectedIconId){
+      setSelectedIconId(-1)
+    }else {
+      setSelectedIconId(iconId)
     }
-    const myInput = useRef(null)
-    const submit = () => {
-        if(tagName===''){
-          window.alert('Please enter a tag name')
-        }else if(selectedIconId < 0){
-          window.alert('Please select an icon')
-        }else if(category!=='-'&&category!=='+'){
-          window.alert('Please select a tag category')
-        }else {
-          addPayTag(tagName,selectedIconId,category)
-          setTagName('')
-          setSelectedIconId(-1)
-          window.alert('Added successfully')
+  }
+  const myInput = useRef(null)
+  const [alert, setAlert] = useState<{open: boolean, message: string}>({open: false, message: ''});
+  const submit = () => {
+    if(tagName===''){
+      setAlert({open: true, message: 'Please enter a tag name'});
+    }else if(selectedIconId < 0){
+      setAlert({open: true, message: 'Please select an icon'});
+    }else if(category!=='-'&&category!=='+'){
+      setAlert({open: true, message: 'Please select a tag category'});
+    }else {
+      addPayTag(tagName,selectedIconId,category)
+      setTagName('')
+      setSelectedIconId(-1)
+      setAlert({open: true, message: 'Added successfully'});
+      setTimeout(() => {
+        if (category === '+') {
+          navigate('/IncomeTagsSettings');
+        } else {
+          navigate('/PayTagsSettings');
         }
+      }, 800);
     }
-    return(
-        <div style={{background: 'linear-gradient(135deg, #f7f4ed 70%, #e0c9a6 100%)', minHeight: '100vh'}}>
+  }
+  // 跳转回count并带上category参数
+  const handleBack = () => {
+    // Use current category state, not lastCategory from localStorage
+    if (category === '+') {
+      navigate('/IncomeTagsSettings');
+    } else {
+      navigate('/PayTagsSettings');
+    }
+  };
+  return(
+      <div style={{background: 'linear-gradient(135deg, #f7f4ed 70%, #e0c9a6 100%)', minHeight: '100vh'}}>
+        <Alert open={alert.open} message={alert.message} onClose={() => setAlert({open: false, message: ''})} />
           <div style={{
               background: '#e0c9a6',
               boxShadow: '0 4px 18px 0 rgba(224,201,166,0.13)',
@@ -171,7 +198,7 @@ export const AddTag = () => {
               marginBottom: 8,
               position: 'relative',
           }}>
-              <Link to='../' style={{color: '#5a4322', display: 'flex', alignItems: 'center', fontSize: 22, textDecoration: 'none', marginLeft: 18, marginRight: 0, height: 56, minWidth: 36, borderRadius: 12, transition: 'background 0.2s'}}><Icon name='return' style={{width: 27, height: 27}} /></Link>
+              <button onClick={handleBack} style={{background: 'none', border: 'none', color: '#5a4322', display: 'flex', alignItems: 'center', fontSize: 22, textDecoration: 'none', marginLeft: 18, marginRight: 0, height: 56, minWidth: 36, borderRadius: 12, transition: 'background 0.2s', cursor: 'pointer'}}><Icon name='return' style={{width: 27, height: 27}} /></button>
               <div style={{flex: 1, textAlign: 'center', fontWeight: 600, fontSize: 20, letterSpacing: 1, marginRight: 36, userSelect: 'none'}}>
                   New Tag
               </div>

@@ -3,7 +3,7 @@ import React from "react";
 import Icon from "../../components/Icon";
 import {Link} from "react-router-dom";
 import {useTags} from "../../hooks/useTags";
-import classnames from 'classnames';
+// import classnames from 'classnames'; // 未使用，移除
 
 interface PayTagProps {
     children?:React.ReactNode | React.ReactNode[];
@@ -12,8 +12,8 @@ interface PayTagProps {
 }
 const TagListSection = styled.ol`
   width: 100%;
-  padding: 10px 2px 0 2px;
-  background: #fefbf0;
+  padding: 4px 2px 0 2px;
+  background: linear-gradient(135deg, #fefbf0 70%, #f6d0a0 100%);
   list-style: none;
   margin: 0;
   >div {
@@ -75,8 +75,22 @@ const TagListSection = styled.ol`
       }
     }
     >li.selected {
-      border: 2px solid #f66464;
-      background: #f6d1b5;
+      border: 2.5px solid #e88393;
+      background: #f6e7d0;
+      color: #b85c38;
+      font-weight: 900;
+      position: relative;
+      box-shadow: 0 2px 8px 0 rgba(232,131,147,0.10);
+    }
+    >li.selected::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 12%;
+      bottom: 12%;
+      width: 5px;
+      border-radius: 3px;
+      background: #e88393;
     }
     >li.hidden {
       display: none;

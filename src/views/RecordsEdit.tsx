@@ -1,4 +1,4 @@
-import {Link, useParams} from "react-router-dom";
+import {Link, useParams, useNavigate} from "react-router-dom";
 import React, {useEffect, useLayoutEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import {TopBar} from "./AddTag";
@@ -6,7 +6,7 @@ import Icon from "../components/Icon";
 import {useRecords} from "../hooks/useRecords";
 import {useTags} from "../hooks/useTags";
 import {useDate} from "../hooks/useDate";
-import {AddButton, DeleteButton} from "./PayTagEdit";
+import Alert from '../components/Alert';
 import {set} from "lodash";
 type Params = {
     id:any
@@ -28,9 +28,9 @@ export const CategorySelectBox = styled.ul`
       border-bottom: 2px solid rgb(246,50,50);
     }
 `
-
 export const RecordsEdit:React.FC = () => {
     const {id} = useParams<Params>();
+    const navigate = useNavigate();
     const {getName,findTag,IconMap} = useTags();
     const {findRecord,deleteRecord,updateRecord} = useRecords()
     const {findDay} = useDate()
@@ -52,29 +52,35 @@ export const RecordsEdit:React.FC = () => {
             setNewDate(record.createdAt);
         }
     }, [record]);
+    const [alert, setAlert] = useState<{open: boolean, message: string}>({open: false, message: ''});
     const submit = () => {
         if(newAmount === 0){
-            window.alert('Please enter a new amount')
+            setAlert({open: true, message: 'Please enter a new amount'});
             return;
         }else if(category!=='-'&&category!=='+') {
-            window.alert('Please select a category')
+            setAlert({open: true, message: 'Please select a category'});
         }else {
             // update createdAt field directly before calling updateRecord
             record.createdAt = newDate;
             updateRecord(record.recordId,category,newAmount,newNote)
-            window.alert('Record updated successfully!')
+            setAlert({open: true, message: 'Record updated successfully!'});
+            setTimeout(() => { navigate(-1); }, 1200);
         }
     }
+    let tagLabel = '';
+    let iconName = 'cat';
     if(record){
         // Always show tag name for custom and built-in tags
         let tag = findTag(record.tagId);
-        let tagLabel = tag ? tag.name : 'Unknown';
-        let iconName = 'cat';
+        tagLabel = tag ? tag.name : 'Unknown';
         if (tag && IconMap[tag.iconId]) {
             iconName = IconMap[tag.iconId].name || 'cat';
         }
-        return (
+    }
+    return (
+        record ? (
             <div style={{background: 'linear-gradient(135deg, #f7f4ed 70%, #e0c9a6 100%)', minHeight: '100vh'}}>
+                <Alert open={alert.open} message={alert.message} onClose={() => setAlert({open: false, message: ''})} />
                 <div style={{
                     background: '#e0c9a6',
                     boxShadow: '0 4px 18px 0 rgba(224,201,166,0.13)',
@@ -132,10 +138,10 @@ export const RecordsEdit:React.FC = () => {
                                     fontWeight: 700,
                                     fontSize: 18,
                                     letterSpacing: 1,
-                                    border: '1.5px solid #e0c9a6',
-                                    borderRadius: 8,
-                                    padding: '4px 10px',
-                                    width: 120,
+                                    border: '2px solid #e0c9a6',
+                                    borderRadius: 12,
+                                    padding: '8px 16px',
+                                    width: 180,
                                     background: '#faf8f4',
                                     outline: 'none',
                                     marginLeft: 0,
@@ -159,12 +165,13 @@ export const RecordsEdit:React.FC = () => {
                                 type="date"
                                 style={{
                                     color: '#444',
-                                    fontWeight: 500,
-                                    fontSize: 15,
-                                    border: '1.5px solid #e0c9a6',
-                                    borderRadius: 8,
-                                    padding: '4px 10px',
-                                    width: 140,
+                                    fontWeight: 700,
+                                    fontSize: 18,
+                                    letterSpacing: 1,
+                                    border: '2px solid #e0c9a6',
+                                    borderRadius: 12,
+                                    padding: '8px 16px',
+                                    width: 180,
                                     background: '#faf8f4',
                                     outline: 'none',
                                     marginLeft: 0,
@@ -182,15 +189,17 @@ export const RecordsEdit:React.FC = () => {
                             <input
                                 style={{
                                     color: '#444',
-                                    fontSize: 15,
-                                    border: '1.5px solid #e0c9a6',
-                                    borderRadius: 8,
-                                    padding: '4px 10px',
-                                    marginLeft: 0,
-                                    width: 160,
-                                    fontWeight: 500,
+                                    fontWeight: 700,
+                                    fontSize: 18,
+                                    letterSpacing: 1,
+                                    border: '2px solid #e0c9a6',
+                                    borderRadius: 12,
+                                    padding: '8px 16px',
+                                    width: 180,
                                     background: '#faf8f4',
                                     outline: 'none',
+                                    marginLeft: 0,
+                                    marginRight: 0,
                                     transition: 'border 0.2s',
                                 }}
                                 value={newNote}
@@ -211,18 +220,15 @@ export const RecordsEdit:React.FC = () => {
                         style={{background: '#d94a4a', color: '#fff', fontWeight: 600, fontSize: 14, borderRadius: 7, boxShadow: '0 2px 8px #d94a4a', border: 'none', padding: '7px 0', cursor: 'pointer', flex: 1, letterSpacing: 1}}
                         onClick={() => {
                             deleteRecord(record.recordId);
-                            window.alert('Record deleted successfully!');
-                            window.location.replace('/statistics');
+                            setAlert({open: true, message: 'Record deleted successfully!'});
+                            setTimeout(() => { navigate(-1); }, 1200);
                         }}
                     >
                         Delete Record
                     </button>
                 </div>
             </div>
-        );
-    } else {
-        // Beautified fallback for missing record
-        return (
+        ) : (
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#fefbf0'}}>
                 <div style={{
                     background: 'white',
@@ -263,6 +269,6 @@ export const RecordsEdit:React.FC = () => {
                     }}>Back to Statistics</a>
                 </div>
             </div>
-        );
-    }
+        )
+    );
 }
