@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 const Wrapper = styled.div`
   border: 1px solid grey;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   background-color: rgb(254,251,240);
@@ -22,8 +22,18 @@ const Main = styled.div`
 `
 
 const Layout = (props : any) => {
+  const [vh, setVh] = useState(window.innerHeight);
+  useEffect(() => {
+    const onResize = () => {
+      setVh(window.innerHeight);
+    };
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+    };
+  }, []);
   return (
-    <Wrapper>
+    <Wrapper style={{height: vh}}>
       <Main className={props.className}>
         {props.children}
       </Main>
