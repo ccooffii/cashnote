@@ -25,6 +25,8 @@ const NumberPad = styled.section`
   /* 取消 sticky/absolute，顺序渲染 */
   position: static;
   z-index: 1;
+  /* 适配 iOS Safari 底部安全区，防止被地址栏遮挡 */
+  padding-bottom: env(safe-area-inset-bottom);
   @media (min-width: 500px) {
     padding-bottom: 56px; /* 给桌面端底部留出Navi高度 */
   }
