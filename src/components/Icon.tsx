@@ -1,18 +1,24 @@
-import React from "react";
-import classnames from 'classnames';
-let importAll = (requireContext: __WebpackModuleApi.RequireContext) => requireContext.keys().forEach(requireContext);
-try {importAll(require.context('icon', true, /\.svg$/));} catch (error) {console.log(error);}
+import React from 'react';
+import classNames from 'classnames';
 
-type Props = {
-    name : string;
-}&React.SVGAttributes<SVGElement>
-const Icon = (props : Props) => {
-    const {name,children,className,...rest} = props
-    return(
-    <svg className={classnames('icon', className)} {...rest}>
-        <use xlinkHref = {'#' + props.name}></use>
-    </svg>
+interface Props extends React.SVGAttributes<SVGElement> {
+    name: string;
+    className?: string;
+}
+
+/**
+ * Vite + vite-plugin-svg-sprite 方案：
+ * 1. 插件会自动将 src/icon/*.svg 合并为雪碧图，注入到页面。
+ * 2. 组件通过 <use href="#icon-xxx" /> 引用。
+ * 3. name 传入 svg 文件名（不含扩展名），如 name="chart" 对应 src/icon/chart.svg。
+ */
+const Icon: React.FC<Props> = ({ name, className, ...restProps }) => {
+    return (
+        <svg className={classNames('icon', className)} {...restProps}>
+            {/* Vite 方案：vite-plugin-svg-sprite 默认 symbolId 为 icon-[name] */}
+            <use href={`#icon-${name}`} />
+        </svg>
     );
 };
 
-export  default  Icon;
+export default Icon;
