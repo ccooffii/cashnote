@@ -5,7 +5,7 @@ import path from 'path';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 
 export default defineConfig({
-  base: '/CashBook-Demo-React/',
+  base: '/',
   plugins: [
     react(),
     svgr(),
