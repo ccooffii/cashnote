@@ -9,7 +9,7 @@ interface PhoneFrameProps {
 const PhoneFrame: React.FC<PhoneFrameProps> = ({ children }) => {
   return (
     <div className="phone-frame-wrapper">
-      <div className="phone-frame-device">
+      <div className="phone-frame-device" style={{position: 'relative'}}>
         <div className="phone-frame-notch"></div>
         <div className="phone-frame-screen">
           {children}

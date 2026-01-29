@@ -372,7 +372,7 @@ function Chart() {
             </MyTopBar>
             <TableBox>
                 <OverViewBox>
-                    <h3>Last 7 Days Overview: <span style={{fontWeight:600}}>{(weekIncome-weekCost)>0?`Income: ￥${weekIncome-weekCost}`:`Spend: ￥${-(weekIncome-weekCost)}`}</span></h3>
+                    <h3>Last 7 Days Overview: <span style={{fontWeight:600}}>{(weekIncome-weekCost)>0?`Income: $${weekIncome-weekCost}`:`Spend: $${-(weekIncome-weekCost)}`}</span></h3>
                     <div ref={bar}></div>
                 </OverViewBox>
                 <LineBox>

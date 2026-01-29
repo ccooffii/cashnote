@@ -61,13 +61,12 @@ const StatisticsMain = styled.div`
       border-color: #e88393;
     }
     .icon {
-      margin-right: 12px;
-      width: 28px;
-      height: 28px;
+      padding: 0.5px;
+      width: 20px;
+      height: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
       background: #fefbf0;
       border-radius: 50%;
       box-shadow: 0 1px 4px #f6d0a0;
@@ -77,6 +76,7 @@ const StatisticsMain = styled.div`
       display: flex;
       flex-direction: column;
       justify-content: center;
+      margin-left: 12px;
       gap: 1px;
       font-size: 15px;
       color: #222;
@@ -138,7 +138,7 @@ const Statistics = () => {
           <div className="day-group" key={date}>
             <div className="day-header">
               <span>{date} {findToday(date) === '周一' ? 'Mon' : findToday(date) === '周二' ? 'Tue' : findToday(date) === '周三' ? 'Wed' : findToday(date) === '周四' ? 'Thu' : findToday(date) === '周五' ? 'Fri' : findToday(date) === '周六' ? 'Sat' : findToday(date) === '周日' ? 'Sun' : ''}</span>
-              <span>{getAmount(date) >= 0 ? `Income: ￥${getAmount(date)}` : `Spend: ￥${-getAmount(date)}`}</span>
+              <span>{getAmount(date) >= 0 ? `Income: $${getAmount(date)}` : `Spend: $${-getAmount(date)}`}</span>
             </div>
             <div className="record-list">
               {records.map(record => {
@@ -158,7 +158,7 @@ const Statistics = () => {
                       </div>
                       <div className="amount">
                         {record.category === '-' ? 'Spend ' : 'Income '}
-                        ￥{record.amount}
+                        ${record.amount}
                       </div>
                     </div>
                   </Link>

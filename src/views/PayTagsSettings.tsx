@@ -1,4 +1,3 @@
-
 import React from "react";
 import styled from "styled-components";
 import {Link, useNavigate} from "react-router-dom";
@@ -14,7 +13,7 @@ export const AddTagBar = styled.button`
   color: white;
   font-weight: bolder;
   box-shadow: inset -2px -3px 0px rgba(0,0,0,0.25);
-  position: fixed;
+  position: absolute;
   left: 50%;
   bottom: 64px;
   transform: translateX(-50%);

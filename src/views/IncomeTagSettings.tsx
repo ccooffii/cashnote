@@ -9,7 +9,7 @@ export function IncomeTagsSettings() {
     const {tags, IconMap} = useTags();
     const navigate = useNavigate();
     return (
-        <Container>
+        <Container style={{position: 'relative'}}>
             <div style={{
                 background: '#e0c9a6',
                 boxShadow: '0 4px 18px 0 rgba(224,201,166,0.13)',
