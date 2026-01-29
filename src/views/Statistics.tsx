@@ -8,10 +8,10 @@ import Icon from "../components/Icon";
 import {useDate} from "../hooks/useDate";
 import {Link} from "react-router-dom";
 
-const StatisticsLayout = styled(Layout)`
+const StatisticsMain = styled.div`
   background: linear-gradient(135deg, #fefbf0 70%, #f6d0a0 100%);
   min-height: 100vh;
-  header {
+  .sticky-header {
     background: #f6d0a0;
     height: 46px;
     display: flex;
@@ -22,8 +22,10 @@ const StatisticsLayout = styled(Layout)`
     letter-spacing: 1.5px;
     color: #b85c38;
     box-shadow: 0 2px 8px 0 rgba(246,208,160,0.10);
-    margin-bottom: 12px;
     border-bottom: 1.5px solid #e88393;
+    position: sticky;
+    top: 0;
+    z-index: 20;
   }
   .day-group {
     margin-bottom: 16px;
@@ -117,8 +119,8 @@ const Statistics = () => {
   };
 
   return (
-    <StatisticsLayout>
-      <header>Bill Details</header>
+    <StatisticsMain>
+      <div className="sticky-header">Bill Details</div>
       <div style={{flex: 1, overflowY: 'auto', minHeight: 0, paddingBottom: 60}}>
         {array.length === 0 && (
           <div style={{
@@ -166,7 +168,7 @@ const Statistics = () => {
           </div>
         ))}
       </div>
-    </StatisticsLayout>
+    </StatisticsMain>
   );
 };
 

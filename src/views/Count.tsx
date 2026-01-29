@@ -61,7 +61,7 @@ function Count() {
         }else {
             addRecord(selected)
             setAlert({open: true, message: 'Submitted successfully'});
-            setSelected(defaultFormData)
+            setSelected(getDefaultFormData())
         }
     }
         return (

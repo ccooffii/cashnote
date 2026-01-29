@@ -14,20 +14,20 @@ export const AddTagBar = styled.button`
   color: white;
   font-weight: bolder;
   box-shadow: inset -2px -3px 0px rgba(0,0,0,0.25);
-  position: absolute;
+  position: fixed;
   left: 50%;
-  bottom: 70px;
+  bottom: 64px;
   transform: translateX(-50%);
-  z-index: 10;
+  z-index: 100;
 `
 export const Container = styled.div`
   font-weight: bolder;
   display: flex;
   flex-direction: column;
   background-color:rgb(254,251,240) ;
-  height: 100vh;
   position: relative;
-  overflow: hidden;
+  flex: 1 1 auto;
+  min-height: 0;
 `
 export const TagsList = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ export const TagsList = styled.div`
   padding-right: 8px;
   overflow-y: auto;
   flex-grow: 1;
-  margin-bottom: 90px;
+  // margin-bottom: 120px;
   >li{
     flex-shrink: 0;
     background-color:rgb(254,251,240) ;

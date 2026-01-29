@@ -4,6 +4,7 @@ import Icon from "../components/Icon";
 import {useTags} from "../hooks/useTags";
 import {AddTagBar, Container, TagsList} from "./PayTagsSettings";
 
+
 export function IncomeTagsSettings() {
     const {tags, IconMap} = useTags();
     const navigate = useNavigate();
