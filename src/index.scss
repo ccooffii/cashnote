@@ -1,5 +1,12 @@
 @import-normalize;
-*{margin: 0;
+html, body {
+  background: rgb(254,251,240);
+  /* 适配 iOS Safari 底部安全区 */
+  padding-bottom: env(safe-area-inset-bottom);
+  min-height: 100vh;
+}
+*{
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
   color: #333;
